@@ -5,6 +5,7 @@ import com.codegym.minitestwebservice.model.StudentClass;
 import com.codegym.minitestwebservice.service.IStudentClassService;
 import com.codegym.minitestwebservice.service.IStudentService;
 import com.codegym.minitestwebservice.service.impl.StudentClassService;
+import com.codegym.minitestwebservice.service.impl.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,9 @@ public class StudentClassController {
     @Autowired
     private StudentClassService studentClassService;
     @Autowired
-    private IStudentService studentService;
+    private StudentService studentService;
+
+
     @GetMapping
     public ResponseEntity<List<StudentClass>> getAllStudentClasses(){
         List<StudentClass> studentClasses = (List<StudentClass>) studentClassService.findAll();
@@ -55,14 +58,18 @@ public class StudentClassController {
         return new ResponseEntity<>(studentClass, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudentClass(@PathVariable Long id){
-        Optional<StudentClass> studentClassOptional = studentClassService.findById(id);
-        if(!studentClassOptional.isPresent()){
+    public ResponseEntity<?> deleteStudentClass(@PathVariable Long id) {
+        Optional<StudentClass> studentClass = studentClassService.findById(id);
+        if (studentClass.isPresent()) {
+            studentClassService.deleteStudentClassById(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        studentClassService.remove(id);
-        return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
+
 
 
 }

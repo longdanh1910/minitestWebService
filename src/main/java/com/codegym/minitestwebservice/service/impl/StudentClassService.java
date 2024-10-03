@@ -36,9 +36,10 @@ public class StudentClassService implements IStudentClassService {
     }
 
 
-    @Override
-    public void delete(Long id) {
 
+    @Override
+    public void deleteStudentClassById(Long id) {
+        iStudentClassRepository.deleteClassStudent(id);
     }
 }
 

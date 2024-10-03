@@ -6,5 +6,5 @@ import org.springframework.data.repository.query.Param;
 public interface IStudentClassService extends IGenerateService<StudentClass>{
 
 
-    void delete(Long id);
+    void deleteStudentClassById(@Param("id")Long id);
 }
